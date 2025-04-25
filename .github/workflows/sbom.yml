@@ -61,7 +61,7 @@ jobs:
             cache-from: type=gha,mode=max,timeout=${{ env.CACHE_TIMEOUT}}
             cache-to: type=gha,mode=max,ignore-error=true,timeout=${{ env.CACHE_TIMEOUT}}
             provenance: mode=max
-            sbom: true
+            sbom: false
           env: #https://github.com/marketplace/actions/build-and-push-docker-images#environment-variables
             DOCKER_BUILD_CHECKS_ANNOTATIONS: "true"
             DOCKER_BUILD_SUMMARY: "true"

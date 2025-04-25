@@ -3,7 +3,8 @@
   "packages": [
     "syft@1.21.0",
     "grype@0.87.0",
-    "jq@1.7.1"
+    "jq@1.7.1",
+    "gh@2.69.0"
   ],
   "shell": {
     "init_hook": [
