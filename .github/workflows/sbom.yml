@@ -69,7 +69,10 @@ jobs:
             DOCKER_BUILD_RECORD_UPLOAD: "true"
             CACHE_TIMEOUT: 10m
         
-
+        - uses: anchore/sbom-action@v0
+          with:
+            image: "${{ env.APP_IMAGE}}@${{ steps.docker_build.outputs.digest }}"
+            artifact-name: sbom.spdx
         - uses: anchore/sbom-action/publish-sbom@v0
           with:
               sbom-artifact-match: ".*\\.spdx$"
