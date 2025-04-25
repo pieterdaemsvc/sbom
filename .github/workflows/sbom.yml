@@ -71,7 +71,7 @@ jobs:
           with:
             image: "${{ env.APP_IMAGE}}@${{ steps.docker_build.outputs.digest }}"
             artifact-name: sbom.spdx
-            output-file: test
+            output-file: test/sbom.spdx
         - name: Generate SBOM attestation
           uses: actions/attest-sbom@v1
           with:
