@@ -71,13 +71,13 @@ jobs:
           with:
             image: "${{ env.APP_IMAGE}}@${{ steps.docker_build.outputs.digest }}"
             artifact-name: sbom.spdx
-            output-file: test/sbom.spdx
+            output-file: ./sbom.spdx
         - name: Generate SBOM attestation
           uses: actions/attest-sbom@v1
           with:
             subject-name: ${{ env.APP_IMAGE}}
             subject-digest: ${{ steps.docker_build.outputs.digest }}
-            sbom-path: test/sbom.spdx
+            sbom-path: ./sbom.spdx
             push-to-registry: true
         - uses: anchore/sbom-action/publish-sbom@v0
           with:
