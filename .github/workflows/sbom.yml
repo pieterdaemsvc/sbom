@@ -34,19 +34,19 @@ jobs:
           with:
             cache-binary: true
            
-        - name: Docker meta
-          id: meta
-          uses: docker/metadata-action@v5.6.1
-          with:
-            # list of Docker images to use as base name for tags
-            images: |
-                ${{ env.APP_IMAGE}}
-            # generate Docker tags based on the following events/attributes
-            tags: |
-                type=raw,value=${{ github.sha }}
-                type=raw,value=latest
-          env:
-            DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest
+        # - name: Docker meta
+        #   id: meta
+        #   uses: docker/metadata-action@v5.6.1
+        #   with:
+        #     # list of Docker images to use as base name for tags
+        #     images: |
+        #         ${{ env.APP_IMAGE}}
+        #     # generate Docker tags based on the following events/attributes
+        #     tags: |
+        #         type=raw,value=${{ github.sha }}
+        #         type=raw,value=latest
+        #   env:
+        #     DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest
         - name: Build and push
           id: docker_build
           uses: docker/build-push-action@v6
@@ -56,9 +56,7 @@ jobs:
             file: ./example_docker/Dockerfile
             push: true
             load: false
-            tags: ${{ steps.meta.outputs.tags }}
-            annotations: ${{ steps.meta.outputs.annotations }}
-            labels: ${{ steps.meta.outputs.labels }}
+            tags: ${{ env.APP_IMAGE}}:latest
             cache-from: type=gha,mode=max,timeout=${{ env.CACHE_TIMEOUT}}
             cache-to: type=gha,mode=max,ignore-error=true,timeout=${{ env.CACHE_TIMEOUT}}
             provenance: mode=max
