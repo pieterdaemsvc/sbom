@@ -17,7 +17,7 @@ jobs:
       id-token: write # Require write permission to Fetch an federated identity token.
       contents: read # Require read permission to access the repository contents.
       packages: write # Require write permission to publish docker image to package.
-      attestation: write # Require write permission to publish attestation to package.
+      attestations: write # Require write permission to publish attestation to package.
     steps:
         - name: git clone application code
           uses: actions/checkout@v4
