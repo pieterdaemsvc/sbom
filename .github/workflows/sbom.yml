@@ -154,7 +154,7 @@ jobs:
           grype-version: "v0.87.0"
           output-format: table
           cache-db: true
-          output-file: ${{ github.workspace }}/artifacts/cyclonedx.json
+          output-file: ${{ github.workspace }}/artifacts/cyclonedx.table
       - name: process grype scan results
         run: |
           #!/bin/bash
@@ -162,9 +162,9 @@ jobs:
           # filepath: /mnt/c/Users/pdaems/git/github/sbom/convert_to_markdown.sh
 
           # Input and output file paths
-          INPUT_FILE="cyclonedx.table"
-          CSV_FILE="cyclonedx.csv"
-          MARKDOWN_FILE="cyclonedx.md"
+          INPUT_FILE="${{ github.workspace }}/artifacts/cyclonedx.table"
+          CSV_FILE="${{ github.workspace }}/artifacts/cyclonedx.csv"
+          MARKDOWN_FILE="${{ github.workspace }}/artifacts/cyclonedx.md"
 
           # Step 1: Convert the table to CSV format
           awk 'BEGIN { OFS=","; print "NAME,INSTALLED,FIXED-IN,TYPE,VULNERABILITY,SEVERITY" }
@@ -182,4 +182,4 @@ jobs:
       - name: get output
         run: |
           
-          cat cyclonedx.md >> $GITHUB_STEP_SUMMARY
+          cat ${{ github.workspace }}/artifacts/cyclonedx.md >> $GITHUB_STEP_SUMMARY
