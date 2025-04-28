@@ -125,6 +125,6 @@ jobs:
             oci://${{ needs.container.outputs.image }}@${{ needs.container.outputs.digest }} \
             --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
             --predicate-type https://spdx.dev/Document/v2.3 \
-            --format json --jq .
+            --format json  | jq .
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
