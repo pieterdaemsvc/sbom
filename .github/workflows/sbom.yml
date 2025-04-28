@@ -98,7 +98,7 @@ jobs:
           with:
             subject-name: ${{ env.APP_IMAGE}}
             subject-digest: ${{ steps.docker_build.outputs.digest }}
-            push-to-registry: true
+            push-to-registry: false
             show-summary: true
   verify_provenance_attestation:
     runs-on: ubuntu-latest
