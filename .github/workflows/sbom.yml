@@ -98,7 +98,7 @@ jobs:
           with:
             subject-name: ${{ env.APP_IMAGE}}
             subject-digest: ${{ steps.docker_build.outputs.digest }}
-            push-to-registry: false
+            push-to-registry: false # not needed, the attestation is  already uploaded to the sigstore instance (in case of private repo it is saved in the github private sigstore instance)
             show-summary: true
   verify_provenance_attestation:
     runs-on: ubuntu-latest
@@ -116,7 +116,7 @@ jobs:
             oci://${{ needs.container.outputs.image }}@${{ needs.container.outputs.digest }} \
             --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
             --predicate-type https://slsa.dev/provenance/v1 \
-            --format json --jq .
+            --format json | jq .
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # verify_sbom_attestation:
