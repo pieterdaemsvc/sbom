@@ -119,3 +119,5 @@ jobs:
             --repository ${{ github.event.repository.name }} \
             --predicate-type https://spdx.dev/Document/v2.3 \
             --format json
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
