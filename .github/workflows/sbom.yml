@@ -108,7 +108,6 @@ jobs:
         run: |
           gh attestation verify \
             oci://${{ needs.container.outputs.image }}@${{ needs.container.outputs.digest }} \
-            --owner ${{ github.repository_owner }} \
             --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
             --predicate-type https://slsa.dev/provenance/v1 \
             --format json
@@ -118,7 +117,6 @@ jobs:
         run: |
           gh attestation verify \
             oci://${{ needs.container.outputs.image }}@${{ needs.container.outputs.digest }} \
-            --owner ${{ github.repository_owner }} \
             --repository ${{ github.repository_owner }}/${{ github.event.repository.name }} \
             --predicate-type https://spdx.dev/Document/v2.3 \
             --format json
