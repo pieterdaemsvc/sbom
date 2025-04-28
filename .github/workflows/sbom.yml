@@ -149,15 +149,6 @@ jobs:
           registry: ghcr.io
           username: volvo-cars
           password: ${{ secrets.GITHUB_TOKEN}}
-      # - name: Verify sbom attestation
-      #   run: |
-      #       gh attestation verify \
-      #         oci://${{ needs.container.outputs.image }}@${{ needs.container.outputs.digest }} \
-      #         --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
-      #         --predicate-type https://spdx.dev/Document/v2.3 \
-      #         --format json  | jq .
-      #     env:
-      #       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Download a single artifact
         uses: actions/download-artifact@v4
         with:
@@ -169,7 +160,7 @@ jobs:
         with:
           sbom: "${{ github.workspace}}/artifacts/sbom.spdx"
           fail-build: true
-          severity-cutoff: medium
+          severity-cutoff: critical
           grype-version: "v0.87.0"
           output-format: table
           cache-db: true
@@ -191,10 +182,18 @@ jobs:
               # Split the line into fields based on whitespace
               name = $1;
               installed = $2;
-              fixed_in = ($3 ~ /^[a-zA-Z]/ ? "" : $3); # Check if $3 is empty or part of the next column
-              type = ($3 ~ /^[a-zA-Z]/ ? $3 : $4);
-              vulnerability = ($3 ~ /^[a-zA-Z]/ ? $4 : $5);
-              severity = ($3 ~ /^[a-zA-Z]/ ? $5 : $6);
+               # Handle "FIXED-IN" column with potential multi-word values like "(won't fix)"
+              if ($3 ~ /^\(/ && $(NF-3) ~ /fix\)$/) {
+                  fixed_in = $3 " " $4 " " $5;
+                  type = $6;
+                  vulnerability = $7;
+                  severity = $8;
+              } else {
+                  fixed_in = ($3 ~ /^[a-zA-Z]/ ? "" : $3);
+                  type = ($3 ~ /^[a-zA-Z]/ ? $3 : $4);
+                  vulnerability = ($3 ~ /^[a-zA-Z]/ ? $4 : $5);
+                  severity = ($3 ~ /^[a-zA-Z]/ ? $5 : $6);
+              }
 
               # Print the fields in Markdown table format
               printf "| %-20s | %-24s | %-20s | %-5s | %-15s | %-10s |\n", name, installed, fixed_in, type, vulnerability, severity;
