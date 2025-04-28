@@ -150,12 +150,13 @@ jobs:
         with:
           sbom: "${{ github.workspace}}/artifacts/sbom.spdx"
           fail-build: true
-          severity-cutoff: critical
+          severity-cutoff: medium
           grype-version: "v0.87.0"
           output-format: table
           cache-db: true
           output-file: ${{ github.workspace }}/artifacts/cyclonedx.table
       - name: process grype scan results
+        if: always()
         run: |
           #!/bin/bash
 
@@ -184,6 +185,6 @@ jobs:
           # Output success message
           echo "Markdown table saved to $MARKDOWN_FILE"
       - name: get output
+        if: always()
         run: |
-          
           cat ${{ github.workspace }}/artifacts/cyclonedx.md >> $GITHUB_STEP_SUMMARY
