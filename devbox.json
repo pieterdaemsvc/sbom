@@ -4,7 +4,9 @@
     "syft@1.21.0",
     "grype@0.87.0",
     "jq@1.7.1",
-    "gh@2.69.0"
+    "gh@2.69.0",
+    "openshift@4.16.0",
+    "kubectl@1.32.3"
   ],
   "shell": {
     "init_hook": [

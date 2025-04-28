@@ -18,6 +18,9 @@ jobs:
       contents: read # Require read permission to access the repository contents.
       packages: write # Require write permission to publish docker image to package.
       attestations: write # Require write permission to publish attestation to package.
+    outputs:
+      image: ${{ env.APP_IMAGE}}
+      digest: ${{ steps.docker_build.outputs.digest }}
     steps:
         - name: git clone application code
           uses: actions/checkout@v4
@@ -68,11 +71,13 @@ jobs:
             DOCKER_BUILD_RECORD_UPLOAD: "true"
             CACHE_TIMEOUT: 10m
         
+        # generates the sbom for the container image
         - uses: anchore/sbom-action@v0
           with:
             image: "${{ env.APP_IMAGE}}@${{ steps.docker_build.outputs.digest }}"
             artifact-name: sbom.spdx
             output-file: ./sbom.spdx
+        # attests the container image with the sbom and push it to the registry
         - name: Generate SBOM attestation
           uses: actions/attest-sbom@v1
           with:
@@ -80,6 +85,37 @@ jobs:
             subject-digest: ${{ steps.docker_build.outputs.digest }}
             sbom-path: ./sbom.spdx
             push-to-registry: true
+
+
+        #adds the sbom to the pipeline arttifacts 
         - uses: anchore/sbom-action/publish-sbom@v0
           with:
               sbom-artifact-match: ".*\\.spdx$"
+
+        #attests the container image with the docker build provenance and push the provenance to the registry
+        - name: Generate artifact attestation
+          uses: actions/attest-build-provenance@v2
+          with:
+            subject-name: ${{ env.APP_IMAGE}}
+            subject-digest: ${{ steps.docker_build.outputs.digest }}
+            push-to-registry: true
+            show-summary: true
+  verify:
+    runs-on: ubuntu-latest
+    needs: container
+    steps:
+      - name: Verify provenance attestation
+        run: |
+          gh attestation verify \
+            oci://${{ needs.container.outputs.image }}@${{ needs.container.outputs.digest }} \
+            --owner ${{ github.repository_owner }} \
+            --repository ${{ github.event.repository.name }} \
+            --output-format json
+      - name: Verify provenance attestation
+        run: |
+          gh attestation verify \
+            oci://${{ needs.container.outputs.image }}@${{ needs.container.outputs.digest }} \
+            --owner ${{ github.repository_owner }} \
+            --repository ${{ github.event.repository.name }} \
+            --predicate-type https://spdx.dev/Document/v2.3 \
+            --output-format json
