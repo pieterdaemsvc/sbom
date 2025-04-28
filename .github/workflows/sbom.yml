@@ -155,6 +155,31 @@ jobs:
           output-format: table
           cache-db: true
           output-file: ${{ github.workspace }}/artifacts/cyclonedx.json
+      - name: process grype scan results
+        run: |
+          #!/bin/bash
+
+          # filepath: /mnt/c/Users/pdaems/git/github/sbom/convert_to_markdown.sh
+
+          # Input and output file paths
+          INPUT_FILE="cyclonedx.table"
+          CSV_FILE="cyclonedx.csv"
+          MARKDOWN_FILE="cyclonedx.md"
+
+          # Step 1: Convert the table to CSV format
+          awk 'BEGIN { OFS=","; print "NAME,INSTALLED,FIXED-IN,TYPE,VULNERABILITY,SEVERITY" }
+              NR > 1 { printf "%s,%s,%s,%s,%s,%s\n", $1, $2, $3, $4, $5, $6 }' "$INPUT_FILE" > "$CSV_FILE"
+
+          # Step 2: Convert the CSV to Markdown format
+          {
+            echo "| NAME                | INSTALLED                | FIXED-IN             | TYPE  | VULNERABILITY   | SEVERITY   |"
+            echo "|---------------------|--------------------------|----------------------|-------|-----------------|------------|"
+            awk -F',' 'NR > 1 { printf "| %-20s | %-24s | %-20s | %-5s | %-15s | %-10s |\n", $1, $2, $3, $4, $5, $6 }' "$CSV_FILE"
+          } > "$MARKDOWN_FILE"
+
+          # Output success message
+          echo "Markdown table saved to $MARKDOWN_FILE"
       - name: get output
         run: |
-          cat ${{ github.workspace }}/artifacts/cyclonedx.json >> $GITHUB_STEP_SUMMARY
+          
+          cat cyclonedx.md >> $GITHUB_STEP_SUMMARY
