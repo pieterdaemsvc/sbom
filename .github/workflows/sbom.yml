@@ -145,10 +145,15 @@ jobs:
           name: sbom.spdx
           path: "${{ github.workspace}}/artifacts"
       - name: Scan SBOM
+        id: scan
         uses: anchore/scan-action@v6
         with:
           sbom: "${{ github.workspace}}/artifacts/sbom.spdx"
           fail-build: true
           severity-cutoff: low
           grype-version: "v0.87.0"
-          # output-format: cyclonedx-json
+          output-format: table
+          cache-db: true
+      # - name: get output
+      #   run: |
+      #     cat ${{ steps.scan.outputs.output }}
