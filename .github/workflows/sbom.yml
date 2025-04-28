@@ -157,4 +157,4 @@ jobs:
           output-file: ${{ github.workspace }}/artifacts/cyclonedx.json
       - name: get output
         run: |
-          cat ${{ github.workspace }}/artifacts/cyclonedx.json
+          cat ${{ github.workspace }}/artifacts/cyclonedx.json >> $GITHUB_STEP_SUMMARY

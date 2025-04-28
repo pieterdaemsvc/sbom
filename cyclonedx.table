@@ -1,0 +1,18 @@
+NAME                INSTALLED                FIXED-IN             TYPE  VULNERABILITY   SEVERITY   
+coreutils           9.4-3ubuntu6                                  deb   CVE-2016-2781   Low         
+gpgv                2.4.4-2ubuntu17.2                             deb   CVE-2022-3219   Low         
+libc-bin            2.39-0ubuntu8.4                               deb   CVE-2016-20013  Negligible  
+libc6               2.39-0ubuntu8.4                               deb   CVE-2016-20013  Negligible  
+libgcrypt20         1.10.3-2build1                                deb   CVE-2024-2236   Low         
+libpam-modules      1.5.3-5ubuntu5.1                              deb   CVE-2024-10963  Medium      
+libpam-modules      1.5.3-5ubuntu5.1                              deb   CVE-2024-10041  Medium      
+libpam-modules-bin  1.5.3-5ubuntu5.1                              deb   CVE-2024-10963  Medium      
+libpam-modules-bin  1.5.3-5ubuntu5.1                              deb   CVE-2024-10041  Medium      
+libpam-runtime      1.5.3-5ubuntu5.1                              deb   CVE-2024-10963  Medium      
+libpam-runtime      1.5.3-5ubuntu5.1                              deb   CVE-2024-10041  Medium      
+libpam0g            1.5.3-5ubuntu5.1                              deb   CVE-2024-10963  Medium      
+libpam0g            1.5.3-5ubuntu5.1                              deb   CVE-2024-10041  Medium      
+libssl3t64          3.0.13-0ubuntu3.5                             deb   CVE-2024-41996  Low         
+login               1:4.13+dfsg1-4ubuntu3.2                       deb   CVE-2024-56433  Low         
+passwd              1:4.13+dfsg1-4ubuntu3.2                       deb   CVE-2024-56433  Low         
+perl-base           5.38.2-3.2build2.1       5.38.2-3.2ubuntu0.1  deb   CVE-2024-56406  Medium 
