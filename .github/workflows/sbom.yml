@@ -150,10 +150,11 @@ jobs:
         with:
           sbom: "${{ github.workspace}}/artifacts/sbom.spdx"
           fail-build: true
-          severity-cutoff: low
+          severity-cutoff: critical
           grype-version: "v0.87.0"
           output-format: table
           cache-db: true
-      # - name: get output
-      #   run: |
-      #     cat ${{ steps.scan.outputs.output }}
+          output-file: ${{ github.workspace }}/artifacts/cyclonedx.json
+      - name: get output
+        run: |
+          cat ${{ github.workspace }}/artifacts/cyclonedx.json
