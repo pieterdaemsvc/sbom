@@ -109,8 +109,8 @@ jobs:
           gh attestation verify \
             oci://${{ needs.container.outputs.image }}@${{ needs.container.outputs.digest }} \
             --owner ${{ github.repository_owner }} \
-            --repository ${{ github.event.repository.name }} \
-            --output-format json
+            --repo ${{ github.event.repository.name }} \
+            --format json
       - name: Verify provenance attestation
         run: |
           gh attestation verify \
@@ -118,4 +118,4 @@ jobs:
             --owner ${{ github.repository_owner }} \
             --repository ${{ github.event.repository.name }} \
             --predicate-type https://spdx.dev/Document/v2.3 \
-            --output-format json
+            --format json
