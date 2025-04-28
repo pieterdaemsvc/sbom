@@ -149,6 +149,6 @@ jobs:
         with:
           sbom: "${{ github.workspace}}/artifacts/sbom.spdx"
           fail-build: true
-          severity-cutoff: critical
+          severity-cutoff: low
           grype-version: "v0.87.0"
           # output-format: cyclonedx-json
