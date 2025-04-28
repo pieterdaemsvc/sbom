@@ -12,10 +12,18 @@ awk 'NR > 1 {
     # Split the line into fields based on whitespace
     name = $1;
     installed = $2;
-    fixed_in = ($3 ~ /^[a-zA-Z]/ ? "" : $3); # Check if $3 is empty or part of the next column
-    type = ($3 ~ /^[a-zA-Z]/ ? $3 : $4);
-    vulnerability = ($3 ~ /^[a-zA-Z]/ ? $4 : $5);
-    severity = ($3 ~ /^[a-zA-Z]/ ? $5 : $6);
+    # Handle "FIXED-IN" column with potential multi-word values like "won t fix"
+    if ($3 ~ /^\(/ && NF >= 3 && $(NF-3) ~ /fix\)$/) {
+        fixed_in = $3 " " $4 " " $5;
+        type = $6;
+        vulnerability = $7;
+        severity = $8;
+    } else {
+        fixed_in = ($3 ~ /^[a-zA-Z]/ ? "" : $3);
+        type = ($3 ~ /^[a-zA-Z]/ ? $3 : $4);
+        vulnerability = ($3 ~ /^[a-zA-Z]/ ? $4 : $5);
+        severity = ($3 ~ /^[a-zA-Z]/ ? $5 : $6);
+    }
 
     # Print the fields in Markdown table format
     printf "| %-20s | %-24s | %-20s | %-5s | %-15s | %-10s |\n", name, installed, fixed_in, type, vulnerability, severity;

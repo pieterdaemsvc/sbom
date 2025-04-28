@@ -182,7 +182,7 @@ jobs:
               # Split the line into fields based on whitespace
               name = $1;
               installed = $2;
-              # Handle "FIXED-IN" column with potential multi-word values like "(won't fix)"
+              # Handle "FIXED-IN" column with potential multi-word values like "(won`t fix)"
               if ($3 ~ /^\(/ && $(NF-3) ~ /fix\)$/) {
                   fixed_in = $3 " " $4 " " $5;
                   type = $6;
