@@ -115,7 +115,8 @@ jobs:
           gh attestation verify \
             oci://${{ needs.container.outputs.image }}@${{ needs.container.outputs.digest }} \
             --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
-            --predicate-type https://slsa.dev/provenance/v1
+            --predicate-type https://slsa.dev/provenance/v1 \
+            --format json --jq .
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # verify_sbom_attestation:
