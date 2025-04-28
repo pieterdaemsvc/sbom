@@ -159,22 +159,26 @@ jobs:
         run: |
           #!/bin/bash
 
-          # filepath: /mnt/c/Users/pdaems/git/github/sbom/convert_to_markdown.sh
-
           # Input and output file paths
           INPUT_FILE="${{ github.workspace }}/artifacts/cyclonedx.table"
-          CSV_FILE="${{ github.workspace }}/artifacts/cyclonedx.csv"
           MARKDOWN_FILE="${{ github.workspace }}/artifacts/cyclonedx.md"
 
-          # Step 1: Convert the table to CSV format
-          awk 'BEGIN { OFS=","; print "NAME,INSTALLED,FIXED-IN,TYPE,VULNERABILITY,SEVERITY" }
-              NR > 1 { printf "%s,%s,%s,%s,%s,%s\n", $1, $2, $3, $4, $5, $6 }' "$INPUT_FILE" > "$CSV_FILE"
-
-          # Step 2: Convert the CSV to Markdown format
+          # Step 1: Convert the .table file directly to Markdown format
           {
-            echo "| NAME                | INSTALLED                | FIXED-IN             | TYPE  | VULNERABILITY   | SEVERITY   |"
-            echo "|---------------------|--------------------------|----------------------|-------|-----------------|------------|"
-            awk -F',' 'NR > 1 { printf "| %-20s | %-24s | %-20s | %-5s | %-15s | %-10s |\n", $1, $2, $3, $4, $5, $6 }' "$CSV_FILE"
+          echo "| NAME                | INSTALLED                | FIXED-IN             | TYPE  | VULNERABILITY   | SEVERITY   |"
+          echo "|---------------------|--------------------------|----------------------|-------|-----------------|------------|"
+          awk 'NR > 1 {
+              # Split the line into fields based on whitespace
+              name = $1;
+              installed = $2;
+              fixed_in = ($3 ~ /^[a-zA-Z]/ ? "" : $3); # Check if $3 is empty or part of the next column
+              type = ($3 ~ /^[a-zA-Z]/ ? $3 : $4);
+              vulnerability = ($3 ~ /^[a-zA-Z]/ ? $4 : $5);
+              severity = ($3 ~ /^[a-zA-Z]/ ? $5 : $6);
+
+              # Print the fields in Markdown table format
+              printf "| %-20s | %-24s | %-20s | %-5s | %-15s | %-10s |\n", name, installed, fixed_in, type, vulnerability, severity;
+          }' "$INPUT_FILE"
           } > "$MARKDOWN_FILE"
 
           # Output success message

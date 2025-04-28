@@ -6,7 +6,8 @@
     "jq@1.7.1",
     "gh@2.69.0",
     "openshift@4.16.0",
-    "kubectl@1.32.3"
+    "kubectl@1.32.3",
+    "cyclonedx-cli@0.27.2"
   ],
   "shell": {
     "init_hook": [

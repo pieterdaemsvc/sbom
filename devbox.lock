@@ -1,6 +1,54 @@
 {
   "lockfile_version": "1",
   "packages": {
+    "cyclonedx-cli@0.27.2": {
+      "last_modified": "2025-04-12T15:53:49Z",
+      "resolved": "github:NixOS/nixpkgs/52d0eded529af34e91df6b2a2bc32eb636637cd2#cyclonedx-cli",
+      "source": "devbox-search",
+      "version": "0.27.2",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/3hx3kv3mgmwif5lvwi79wm2pn4aqzgd8-cyclonedx-cli-0.27.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/3hx3kv3mgmwif5lvwi79wm2pn4aqzgd8-cyclonedx-cli-0.27.2"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/zbqcbg1hnx7k6ahwmr1wmp933mxqkdpf-cyclonedx-cli-0.27.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/zbqcbg1hnx7k6ahwmr1wmp933mxqkdpf-cyclonedx-cli-0.27.2"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/wih3kdhmgv3g9klgxfmlwk6y11i9b0k9-cyclonedx-cli-0.27.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/wih3kdhmgv3g9klgxfmlwk6y11i9b0k9-cyclonedx-cli-0.27.2"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/1vyv38sw5zp084bsh38d0giii8jkir1i-cyclonedx-cli-0.27.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/1vyv38sw5zp084bsh38d0giii8jkir1i-cyclonedx-cli-0.27.2"
+        }
+      }
+    },
     "gh@2.69.0": {
       "last_modified": "2025-03-23T05:31:05Z",
       "resolved": "github:NixOS/nixpkgs/dd613136ee91f67e5dba3f3f41ac99ae89c5406b#gh",
